@@ -2,9 +2,9 @@
 
 /node_modules
 /package-lock.json
-/public/build
-/public/hot
-/public/storage
+/public_html/build
+/public_html/hot
+/public_html/storage
 
 /vendor
 /composer.lock
