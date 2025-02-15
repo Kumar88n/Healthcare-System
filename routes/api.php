@@ -1,10 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\AuthController;
+
+Route::post('register', [AuthController::class, 'register']);
+Route::post('login', [AuthController::class, 'login']);
+
 
 Route::group(['middleware' => 'auth:api'], function () {
-    Route::get('/user', function () {
-        return Auth::user();
-    });
+    Route::get('get-user-data', [AuthController::class, 'getUserData']);
+    Route::get('logout', [AuthController::class, 'logout']);
 });
