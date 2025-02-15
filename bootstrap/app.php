@@ -15,7 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $app->usePublicPath(path: realpath(base_path('public_html')));
     })
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->append(App\Http\Middleware\AuthCheck::class);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
