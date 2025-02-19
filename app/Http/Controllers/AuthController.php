@@ -34,11 +34,13 @@ class AuthController extends Controller
 
             if ($user) {
                 $token = JWTAuth::attempt($request->only('email', 'password'));
+                $userData = Auth::user();
 
                 $this->apiValid = true;
                 $this->apiMessage = "User created successfully";
                 $this->apiData = [
                     'token' => $token,
+                    'user' => $userData,
                 ];
             } else {
                 $this->apiMessage = "Error creating new User";
@@ -68,10 +70,13 @@ class AuthController extends Controller
             if (!$token) {
                 $this->apiMessage = "Unauthorized";
             } else {
+                $userData = Auth::user();
+
                 $this->apiValid = true;
                 $this->apiMessage = "User logged in successfully";
                 $this->apiData = [
                     'token' => $token,
+                    'user' => $userData,
                 ];
             }
         }

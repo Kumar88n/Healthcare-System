@@ -312,9 +312,9 @@ class ServiceController extends Controller
         }
 
         $appointmentsQuery = Appointments::query();
-
         switch ($userData['role']) {
             case 'admin':
+                // show all
                 break;
             case 'doctor':
                 $appointmentsQuery->where('doctor_id', $userData['id']);
@@ -327,8 +327,9 @@ class ServiceController extends Controller
         /**  Search records in DB  */
         if (!empty($request->searchBy)) {
             $appointmentsQuery->where(function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->searchBy}%")
-                    ->orWhere('email', 'like', "%{$request->searchBy}%");
+                $query->where('id', 'like', "%{$request->searchBy}%")
+                    ->orWhere('status', 'like', "%{$request->searchBy}%")
+                    ->orWhere('schedule', 'like', "%{$request->searchBy}%");
             });
         }
 
