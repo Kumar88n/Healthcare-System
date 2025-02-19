@@ -43,10 +43,18 @@ class ServiceController extends Controller
 
         /**  Search records in DB  */
         if (!empty($request->searchBy)) {
-            $doctorsQuery->where(function ($query) use ($request) {
-                $query->where('name', 'like', "%{$request->searchBy}%")
-                    ->orWhere('specialty', 'like', "%{$request->searchBy}%");
-            });
+
+            /**  Filter records from specific column  */
+            if (!empty($request->filterBy)) {
+
+                $doctorsQuery->where($request->filterBy, $request->searchBy);
+            } else {
+                $doctorsQuery->where(function ($query) use ($request) {
+                    $query->where('name', 'like', "%{$request->searchBy}%")
+                        ->orWhere('specialty', 'like', "%{$request->searchBy}%")
+                        ->orWhere('department', 'like', "%{$request->searchBy}%");
+                });
+            }
         }
 
         $doctorsCount = $doctorsQuery->count();
@@ -403,6 +411,54 @@ class ServiceController extends Controller
                 }
             } else {
                 $this->apiMessage = "Invalid appointment data";
+            }
+        }
+
+        return response()->json([
+            'valid' => $this->apiValid,
+            'message' => $this->apiMessage,
+            'data' => $this->apiData,
+        ]);
+    }
+
+    public function update_doc_info(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'doctor_id' => 'required|int|gt:0',
+        ]);
+
+        if ($validator->fails()) {
+            $this->apiData = $validator->errors();
+            $this->apiMessage = $validator->errors()->first();
+        } else {
+
+            $doctor = Doctors::where('id', $request->doctor_id)
+                ->first();
+            if (!empty($doctor)) {
+
+                $updateArr = [];
+                if (!empty($request->specialty)) {
+                    $updateArr['specialty'] = $request->specialty;
+                }
+                if (!empty($request->department)) {
+                    $updateArr['department'] = $request->department;
+                }
+
+                if (!empty($updateArr)) {
+
+                    $doctorUpdate = Doctors::where('id', $request->doctor_id)->update($updateArr);
+                    if ($doctorUpdate) {
+
+                        $this->apiValid = true;
+                        $this->apiMessage = "Doctor data updated successfully";
+                    } else {
+                        $this->apiMessage = "Something went wrong. Please try again later";
+                    }
+                } else {
+                    $this->apiMessage = "Update Array cannot be empty";
+                }
+            } else {
+                $this->apiMessage = "Invalid Doctor data";
             }
         }
 
