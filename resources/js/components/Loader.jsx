@@ -1,14 +1,18 @@
 import React from "react";
-import { Spinner } from "react-bootstrap";
+import { Box, CircularProgress } from "@mui/material";
 
-const Loader = () => {
+export default function Loader() {
   return (
-    <div className="loader-container">
-      <Spinner animation="border" role="status">
-        <span className="visually-hidden">Loading...</span>
-      </Spinner>
-    </div>
+    <Box
+      sx={{
+        width: "100vw",
+        height: "40vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <CircularProgress sx={{ color: "#72569D" }} size={70} />
+    </Box>
   );
 };
-
-export default Loader;
