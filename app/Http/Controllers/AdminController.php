@@ -36,7 +36,7 @@ class AdminController extends Controller
             $sortOrder = $request->sortOrder;
         }
 
-        $doctorsQuery = Doctors::where('role', 'doctor')
+        $doctorsQuery = User::where('role', 'doctor')
             ->where('approved_by_admin', '0');
 
         $doctorsCount = $doctorsQuery->count();
@@ -89,6 +89,7 @@ class AdminController extends Controller
 
                     $doctor = new Doctors;
                     $doctor->user_id = $doctorData['id'];
+                    $doctor->name = $doctorData['name'];
                     $doctor->specialty = "General Medicine";
                     $doctor->availability = doctors_availability;
                     if ($doctor->save()) {

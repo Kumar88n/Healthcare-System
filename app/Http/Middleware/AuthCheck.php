@@ -26,6 +26,8 @@ class AuthCheck
                 $exceptArr = [
                     'api/login',
                     'api/register',
+                    'api/all-doc-list',
+                    'api/all-patients-list',
                 ];
 
                 /**  check if the current route is not in the exempted routes  */
