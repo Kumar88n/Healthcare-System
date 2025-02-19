@@ -33,8 +33,13 @@ class AuthController extends Controller
             ]);
 
             if ($user) {
+                $token = JWTAuth::attempt($request->only('email', 'password'));
+
                 $this->apiValid = true;
                 $this->apiMessage = "User created successfully";
+                $this->apiData = [
+                    'token' => $token,
+                ];
             } else {
                 $this->apiMessage = "Error creating new User";
             }
