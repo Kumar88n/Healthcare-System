@@ -244,4 +244,119 @@ class ServiceController extends Controller
             'data' => $this->apiData,
         ]);
     }
+
+    public function update_appointment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'appointment_id' => 'required|int|gt:0',
+            'status' => 'required|in:scheduled,canceled',
+        ]);
+
+        if ($validator->fails()) {
+            $this->apiData = $validator->errors();
+            $this->apiMessage = $validator->errors()->first();
+        } else {
+
+            $appointment = Appointments::where('id', $request->appointment_id)
+                ->where('status', "pending")
+                ->first();
+            if (!empty($appointment)) {
+
+                $appointmentUpdate = Appointments::where('id', $request->appointment_id)->update(['status' => $request->status]);
+                if ($appointmentUpdate) {
+
+                    $this->apiValid = true;
+                    $this->apiMessage = "Appointment {$request->status} successfully";
+                } else {
+                    $this->apiMessage = "Something went wrong. Please try again later";
+                }
+            } else {
+                $this->apiMessage = "Invalid appointment data";
+            }
+        }
+
+        return response()->json([
+            'valid' => $this->apiValid,
+            'message' => $this->apiMessage,
+            'data' => $this->apiData,
+        ]);
+    }
+
+    public function appointments_list(Request $request)
+    {
+        $userData = Auth::user();
+
+        /**  Pagination for records  */
+        $pageNo = 0;
+        if (!empty($request->page) && is_numeric($request->page) && ($request->page > 1)) {
+            $pageNo = (ceil($request->page) - 1);
+        }
+
+        $perPage = 10;
+        if (!empty($request->perPage) && is_numeric($request->perPage) && ($request->perPage > 0)) {
+            $perPage = ceil($request->perPage);
+        }
+
+        $skipCount = ($pageNo * $perPage);
+
+        /**  Sort By Column Name  */
+        $sortColumn = "id";
+        if (!empty($request->sortColumn)) {
+            $sortColumn = $request->sortColumn;
+        }
+
+        /**  Sort Order of the Column  */
+        $sortOrder = "DESC";
+        if (!empty($request->sortOrder)) {
+            $sortOrder = $request->sortOrder;
+        }
+
+        $appointmentsQuery = Appointments::query();
+
+        switch ($userData['role']) {
+            case 'admin':
+                break;
+            case 'doctor':
+                $appointmentsQuery->where('doctor_id', $userData['id']);
+                break;
+            case 'patient':
+                $appointmentsQuery->where('user_id', $userData['id']);
+                break;
+        }
+
+        /**  Search records in DB  */
+        if (!empty($request->searchBy)) {
+            $appointmentsQuery->where(function ($query) use ($request) {
+                $query->where('name', 'like', "%{$request->searchBy}%")
+                    ->orWhere('email', 'like', "%{$request->searchBy}%");
+            });
+        }
+
+        $appointmentsCount = $appointmentsQuery->count();
+        $appointmentsDataArr = $appointmentsQuery->orderBy($sortColumn, $sortOrder)
+            ->skip($skipCount)
+            ->take($perPage)
+            ->get()
+            ->toArray();
+        if (!empty($appointmentsDataArr)) {
+
+            $this->apiValid = true;
+            $this->apiMessage = "Appointments List returned successfully.";
+            $this->apiData = [
+                'currentPage' => ($pageNo + 1),
+                'totalPages' => ceil($appointmentsCount / $perPage),
+                'perPage' => $perPage,
+                'totalRecords' => $appointmentsCount,
+                'dataArr' => $appointmentsDataArr,
+            ];
+        } else {
+            $this->apiMessage = "No Appointment list present yet.";
+        }
+
+        return response()->json([
+            'valid' => $this->apiValid,
+            'message' => $this->apiMessage,
+            'data' => $this->apiData,
+        ]);
+    }
 }

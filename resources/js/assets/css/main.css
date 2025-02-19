@@ -1,0 +1,356 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+}
+
+.text-color {
+    color: #72569D !important;
+}
+
+.text-dark-color {
+    color: #1e144f !important;
+}
+
+.navbar-nav .nav-link,
+.navbar-nav .nav-item .dropdown-toggle {
+    position: relative;
+    padding: 8px 15px;
+    font-weight: 500;
+    transition: color 0.3s ease-in-out;
+}
+
+.navbar-nav .nav-link::before,
+.navbar-nav .nav-item .dropdown-toggle::before {
+    content: "";
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #72569d 11.32%, #9a8bd5 95.28%);
+    transition: all 0.3s ease-in-out;
+    transform: translateX(-50%);
+}
+
+.navbar-nav .nav-link:hover::before,
+.navbar-nav .nav-item .dropdown-toggle:hover::before {
+    width: 100%;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-item .dropdown-toggle:hover {
+    color: #72569d !important;
+}
+
+
+
+.custom-btn {
+    background-color: #6f4ba0;
+    color: white;
+    border: 2px solid #6f4ba0;
+    transition: all 0.3s ease-in-out;
+}
+
+.custom-btn:hover {
+    background-color: white;
+    color: #6f4ba0;
+    border: 2px solid #6f4ba0;
+}
+
+.custom-btn:disabled {
+    background-color: #6f4ba0;
+    color: white;
+    border: 2px solid #6f4ba0;
+}
+
+.custom-font {
+    font-family: "Calistoga", serif !important;
+}
+
+.slider_content_font {
+    font-size: 35px;
+}
+
+.custom-badge {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #72569D !important;
+}
+
+.custom-badge-team-member {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #72569D !important;
+}
+
+.custom-badge-content {
+    width: 12px;
+    height: 12px;
+    background-color: #00A51A;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+}
+
+.frst_sec_content {
+    color: #1e144f !important;
+}
+
+.first_sec_blog {
+    background-color: #FEF5F0 !important;
+}
+
+.doctor-img {
+    width: 100%;
+    max-width: 400px;
+}
+
+.neurologist-badge {
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    bottom: -85px;
+    left: 20%;
+    transform: translate(-50%, -50%);
+}
+
+.neurologist-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
+}
+
+.scrolling-section {
+    background-color: #fde7db;
+}
+
+.scrolling-item {
+    font-size: 20px;
+    font-weight: bold;
+    color: #1a1a1a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.footer_sec {
+    background-color: #FEF5F0;
+    padding-top: 250px;
+}
+
+.doctor-card {
+    transition: transform 0.3s ease-in-out;
+    max-width: 300px;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.doctor-image {
+    width: 100%;
+    height: 350px;
+    object-fit: cover;
+    transition: transform 0.3s ease-in-out;
+}
+
+.doctor-card:hover .doctor-image {
+    transform: scale(1.1);
+}
+
+
+.doctor-card:hover .social-icons {
+    opacity: 1;
+}
+
+.team_sec_cntnt {
+    color: #1E144F !important;
+}
+
+.custom-navbar {
+    position: sticky;
+    top: 0;
+    width: 100%;
+    transition: transform 0.3s ease-in-out;
+    z-index: 1000;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.nav-hidden {
+    transform: translateY(-100%);
+}
+
+.nav-visible {
+    transform: translateY(0);
+}
+
+.dr_names {
+    color: #1E144F;
+}
+
+
+.blog-card {
+    border: 2px solid #F2D1BF !important;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all .4s ease-in-out;
+}
+
+.image-container {
+    overflow: hidden;
+    border-radius: 10px 10px 0 0;
+}
+
+.blog-image {
+    transition: transform 0.3s ease-in-out;
+    width: 100%;
+    object-fit: cover;
+}
+
+.blog-card:hover .blog-image {
+    transform: scale(1.1);
+}
+
+.blog-card:hover .blog_btn {
+    color: #fff;
+    background: #72569D;
+}
+
+.blog-card:hover {
+    border: 2px solid #72569D !important;
+}
+
+.blog_btn {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 23px;
+    color: #777094;
+    background: #FEF5F0;
+    border-radius: 5px;
+    border: 0;
+    padding: 15px 30px;
+    -webkit-transition: all .4s ease-in-out;
+    transition: all .4s ease-in-out;
+}
+
+.custom-badge-login {
+    color: #72569D;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 15px 45px;
+    line-height: 26px;
+    background: #efebff;
+    box-shadow: 0px 8px 22px rgba(30, 20, 79, 0.05);
+    border-radius: 50px;
+}
+
+.custom-input-field {
+    width: 100%;
+    font-size: 17px;
+    line-height: 22px;
+    color: #777094;
+    padding: 13px 20px;
+    border: 2px solid #584F88;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.custom-input-field:focus {
+    outline: none !important;
+    border-color: #584F88 !important;
+    box-shadow: none !important;
+}
+
+.department-card {
+    width: 250px;
+    height: 250px;
+    border-radius: 12px;
+    border: 2px solid #f5f5f5;
+    background-color: #fff;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+    position: relative;
+}
+
+.department-card:hover {
+    background-color: #fef4f0;
+    /* Light peach shade */
+    transform: translateY(-5px);
+}
+
+.icon-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: #fef4f0;
+    /* Light peach shade */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+}
+
+.arrow-button {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #72569d;
+    color: white;
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.arrow-button:hover {
+    background-color: #5c4784;
+}
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .neurologist-badge {
+        width: 120px;
+        height: 120px;
+        bottom: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .neurologist-icon {
+        width: 80px;
+        height: 80px;
+    }
+}
+
+@media (max-width: 480px) {
+    .neurologist-badge {
+        width: 100px;
+        height: 100px;
+        bottom: -8px;
+        left: 25%;
+    }
+
+    .neurologist-icon {
+        width: 40px;
+        height: 40px;
+    }
+
+    .navbar-nav .nav-link::before {
+        top: 35px;
+        left: 50%;
+    }
+}
