@@ -17,8 +17,6 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 Route::get('all-doc-list', [ServiceController::class, 'all_doc_list']);
 Route::get('all-patients-list', [ServiceController::class, 'all_patients_list']);
-Route::get('appointments-list', [ServiceController::class, 'appointments_list']);
-Route::post('reschedule-appointment', [ServiceController::class, 'reschedule_appointment']);
 
 
 /**  Auth Routes  */
@@ -30,6 +28,8 @@ Route::group(['middleware' => 'auth:api'], function () {
 
     /**  Service Routes  */
     Route::post('schedule-appointment', [ServiceController::class, 'schedule_appointment']);
+    Route::get('appointments-list', [ServiceController::class, 'appointments_list']);
+    Route::post('reschedule-appointment', [ServiceController::class, 'reschedule_appointment']);
 
 
     /**  Only Doc Routes  */

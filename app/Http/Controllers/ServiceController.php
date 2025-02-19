@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 use App\Models\Doctors;
 use App\Models\User;
 use App\Models\Appointments;
@@ -145,7 +146,7 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'doctor_id' => 'required|int|gt:0',
-            'schedule' => 'required|date_format:Y-m-d H:i:00',
+            'schedule' => 'required|date_format:Y-m-d H:i:00|after:' . Carbon::now()->format('Y-m-d H:i:00'),
         ]);
 
         if ($validator->fails()) {
@@ -249,7 +250,7 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'appointment_id' => 'required|int|gt:0',
-            'status' => 'required|in:scheduled,canceled',
+            'status' => 'required|in:scheduled,canceled,completed',
         ]);
 
         if ($validator->fails()) {
@@ -352,6 +353,57 @@ class ServiceController extends Controller
             ];
         } else {
             $this->apiMessage = "No Appointment list present yet.";
+        }
+
+        return response()->json([
+            'valid' => $this->apiValid,
+            'message' => $this->apiMessage,
+            'data' => $this->apiData,
+        ]);
+    }
+
+    public function reschedule_appointment(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'appointment_id' => 'required|int|gt:0',
+            'schedule' => 'required|date_format:Y-m-d H:i:00|after:' . Carbon::now()->format('Y-m-d H:i:00'),
+        ]);
+
+        if ($validator->fails()) {
+            $this->apiData = $validator->errors();
+            $this->apiMessage = $validator->errors()->first();
+        } else {
+            $userData = Auth::user();
+
+            $appointmentQuery = Appointments::where('id', $request->appointment_id)
+                ->where('status', '!=', "completed");
+
+            switch ($userData['role']) {
+                case 'admin':
+                    // show all
+                    break;
+                case 'doctor':
+                    $appointmentQuery->where('doctor_id', $userData['id']);
+                    break;
+                case 'patient':
+                    $appointmentQuery->where('user_id', $userData['id']);
+                    break;
+            }
+
+            $appointment = $appointmentQuery->first();
+            if (!empty($appointment)) {
+
+                $appointmentUpdate = Appointments::where('id', $request->appointment_id)->update(['schedule' => $request->schedule]);
+                if ($appointmentUpdate) {
+
+                    $this->apiValid = true;
+                    $this->apiMessage = "Appointment {$request->schedule} successfully";
+                } else {
+                    $this->apiMessage = "Something went wrong. Please try again later";
+                }
+            } else {
+                $this->apiMessage = "Invalid appointment data";
+            }
         }
 
         return response()->json([
