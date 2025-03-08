@@ -8,5 +8,6 @@ class Doctors extends Model
 {
     protected $casts = [
         'availability' => 'array',
+        'emergency_schedule' => 'array',
     ];
 }

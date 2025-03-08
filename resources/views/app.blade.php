@@ -10,7 +10,7 @@
 </head>
 
 <body>
-    <div id="app"></div>
+    <div id="app" style="overflow: hidden"></div>
 </body>
 
 </html>

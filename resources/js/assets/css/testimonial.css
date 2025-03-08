@@ -1,0 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+.testimonial_main{
+    font-family: "Calistoga", serif !important;
+}
+
+.test_badge{
+    color: #72569D;
+    background-color: #ffffff;
+    transition: all 0.5s ease;
+}
+
+.test_badge:hover{
+    background-color: #72569D;
+    color: #ffffff
+}
+
+.slider-container {
+    position: relative;
+}
+
+.slick-dots {
+    position: absolute;
+    left: 280px; 
+    bottom: 30px;
+    list-style: none;
+    display: flex;
+    flex-direction: column; 
+    gap: 10px; 
+    align-items: flex-end; 
+}
+
+.slick-dots li button:before {
+    font-size: 12px; 
+    color: #d6d3e4; 
+    opacity: 1;
+}
+
+.slick-dots li.slick-active button:before {
+    color: #1E144F; 
+}
+
+
+/* .testimonial .left{
+    background-color: red;
+}
+
+.testimonial .right{
+    background-color: green;
+}
+
+.testimonial .right_1{
+    background-color: yellow;
+}
+
+.testimonial .right_2 {
+    background-color: pink;
+} */
+
+.testimonial .right_2 h5{
+    line-height: 35px;
+}
+
+

@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col, Button, Badge, Image, ListGroup } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import doctorImage from "../assets/images/hero-image.jpg";
 import brainImage from "../assets/images/brain.svg";
@@ -9,11 +10,12 @@ const sectionStyle = {
     backgroundImage: `url(${lineImage})`,
     backgroundPosition: 'right',
     backgroundRepeat: 'no-repeat',
+    backgroundSize: 'contain',
 };
 const HeroSection = () => (
     <Container fluid className="first_sec_blog position-relative py-3" style={sectionStyle}>
         <Container>
-            <Row className="align-items-center">
+            <Row className="align-items-center hero_sec_row">
                 <Col md={6} xs={12} sm={10}>
                     <Badge
                         bg="white"
@@ -36,11 +38,11 @@ const HeroSection = () => (
                             <span className="me-2"><IoMdCheckmarkCircle size={30} color="#72569D" /></span> Low visit and even less with insurance.
                         </ListGroup.Item>
                     </ListGroup>
-                    <Button className="mt-3 px-4 py-2 fw-bold custom-btn btn-lg">
-                        Online Appointment
+                    <Button  as={Link} to="/onlinebook" className="mt-3 px-4 py-2 fw-bold custom-btn btn-lg">
+                        Book Appointment
                     </Button>
                 </Col>
-                <Col xs={12} sm={10} md={6} className="text-center position-relative mt-5">
+                <Col xs={12} sm={10} md={6} className="text-center mt-5 hero_sec_img">
                     <Image src={doctorImage} roundedCircle className="img-thumbnail shadow-lg w-md-100" />
                     <Badge
                         bg="white"

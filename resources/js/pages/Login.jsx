@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, Button, Image, Card, Badge, Spinner } from "
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import HeaderNavbar from "../components/HeaderNavbar";
-import Loader from "../components/Loader";
 import auth from "../assets/images/auth.svg";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -28,8 +27,12 @@ const Login = () => {
         const apiData = response.data;
         if (apiData.valid) {
           localStorage.setItem("authToken", apiData.data.token);
+          localStorage.setItem("userName", apiData.data.user.name);
+          localStorage.setItem("userId", apiData.data.user.id);
+          localStorage.setItem("userRole", apiData.data.user.role);
           toast.success("Login successful!", { position: "top-right" });
           navigate("/");
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
           toast.error(apiData.message, { position: "top-right" });
         }
@@ -54,7 +57,7 @@ const Login = () => {
           <Col sm={12} md={6} className="d-flex justify-content-center">
             <Card className="p-4 w-md-75 w-lg-50 border-0 shadow-lg">
               <Badge className="pill-button badge bg-light shadow-sm custom-badge-login mb-4 custom-font">
-                Login
+                Sign In
               </Badge>
               <Card.Body>
                 <Form onSubmit={handleSubmit(onSubmit)}>
@@ -71,6 +74,7 @@ const Login = () => {
                           },
                         })}
                         isInvalid={!!errors.email}
+                        className="custom-focus"
                       />
                       <Form.Label>Email</Form.Label>
                       <Form.Control.Feedback type="invalid">{errors.email?.message}</Form.Control.Feedback>
@@ -86,13 +90,14 @@ const Login = () => {
                           minLength: { value: 6, message: "Must be at least 6 characters" },
                         })}
                         isInvalid={!!errors.password}
+                        className="custom-focus"
                       />
                       <Form.Label>Password</Form.Label>
                       <Form.Control.Feedback type="invalid">{errors.password?.message}</Form.Control.Feedback>
                     </Form.Floating>
                   </Form.Group>
                   <div className="text-center">
-                    <Button type="submit" className="custom-btn" disabled={isLoading}>
+                    <Button type="submit" className="custom-btn-auth rounded-5 w-100" disabled={isLoading}>
                       {isLoading ? (
                         <>
                           <Spinner animation="border" size="sm" className="me-2" /> Logging in...

@@ -89,8 +89,7 @@ class AdminController extends Controller
 
                     $doctor = new Doctors;
                     $doctor->user_id = $doctorData['id'];
-                    $doctor->name = $doctorData['name'];
-                    $doctor->specialty = "General Medicine";
+                    $doctor->name = $doctorData['name'];                    
                     $doctor->availability = doctors_availability;
                     if ($doctor->save()) {
                         $this->apiValid = true;

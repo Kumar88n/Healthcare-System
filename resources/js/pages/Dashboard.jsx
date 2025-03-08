@@ -5,16 +5,24 @@ import TeamSection from '../components/TeamSection';
 import BlogSection from '../components/BlogSection';
 import AutoScrollSection from '../components/AutoScrollSection';
 import Department from '../components/Department';
+import ServicesSection from '../components/ServicesSection';
+import Testimonial from '../components/Testimonial';
+import AppointmentSection from '../components/AppointmentSection';
+import BackToTop from '../components/BackToTop';
 
 const Dashboard = () => (
-    <div className="min-vh-100">
+    <>
         <HeaderNavbar />
         <HeroSection />
         <AutoScrollSection />
         <Department />
+        <ServicesSection />
         <TeamSection />
+        <Testimonial />
         <BlogSection />
-    </div>
+        <AppointmentSection />
+        <BackToTop />
+    </>
 );
 
 export default Dashboard;

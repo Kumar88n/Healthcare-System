@@ -1,0 +1,99 @@
+.hd_sec {
+  margin-bottom: 60px;
+  margin: 0px 100px 0px 100px;
+  text-align: center;
+  margin-top: 22px;
+}
+.hd_p {
+  padding: 10px 0px 60px 0px;
+}
+.hd_fnt {
+    width: fit-content;
+    color: #72569D;
+    font-size: 20px;
+    font-weight: 700;
+    padding: 13px 45px;
+    line-height: 26px;
+    background: #ffffff;
+    -webkit-box-shadow: 0px 8px 22px rgba(30, 20, 79, 0.05);
+    box-shadow: 0px 8px 22px rgb(30 20 80 / 10%);
+}
+
+.h2_fnt{
+  margin: 0;
+  margin-top: 49px;
+  position: relative;
+  text-transform: capitalize;
+  font-family: "Calistoga";
+  font-weight: 600;
+  font-size: 55px;
+  font-weight: bolder;
+  line-height: 78px;
+  color: #1E144F;
+}
+
+.dept_bx {
+  /* padding: 100px; */
+  border: 1px solid black;
+}
+
+.dept_img {
+  /* padding: 20px 118px; */
+margin: 40px 70px 0px;
+
+}
+
+.dept_hd {
+  padding: 10px 55px 0px;
+}
+
+.dept_btm {
+  padding: 0px 0px 0px;
+}
+
+.dept_img_br {
+  padding: 25px 32px;
+  background-color: #fef5f0;
+  border-radius: 50%;
+  transition: background-color 0.3s ease; /* Smooth transition */
+}
+
+
+
+.department-box {
+  min-height: 260px;
+  padding-top: 20px;
+  border-radius: 10px;
+  background: #ffffff;
+  width: 100%;
+  border: 3px solid #ffede2;
+  /* box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);  */
+}
+
+.department-box {
+  transition: background-color 0.40s ease;
+}
+
+.department-box:hover {
+  background-color: #ffede2;
+}
+
+
+.btn-pos {
+  margin-top: 27px;
+  /* background: #5f4883; */
+  opacity: 0;
+  transition: margin-top 0.50s ease, opacity 0.50s ease;
+
+}
+
+.department-box:hover .btn-pos {
+  margin-top: 48px;
+  opacity: 1;
+}
+
+.department-box:hover .dept_img_br {
+  background-color: #ffffff;
+  transition: background-color 0.30s ease;
+}
+

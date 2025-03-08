@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     Route::post('schedule-appointment', [ServiceController::class, 'schedule_appointment']);
     Route::get('appointments-list', [ServiceController::class, 'appointments_list']);
     Route::post('reschedule-appointment', [ServiceController::class, 'reschedule_appointment']);
+    Route::post('cancel-appointment', [ServiceController::class, 'update_appointment']);
 
 
     /**  Only Doc Routes  */

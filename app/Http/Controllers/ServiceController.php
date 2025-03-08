@@ -40,14 +40,16 @@ class ServiceController extends Controller
         }
 
         $doctorsQuery = Doctors::query();
-
+        if (isset($request->userId)) {
+            $doctorsQuery->where('user_id', $request->userId);
+        }
         /**  Search records in DB  */
         if (!empty($request->searchBy)) {
 
             /**  Filter records from specific column  */
             if (!empty($request->filterBy)) {
 
-                $doctorsQuery->where($request->filterBy, $request->searchBy);
+                $doctorsQuery->where($request->filterBy, 'like', "%{$request->searchBy}%");
             } else {
                 $doctorsQuery->where(function ($query) use ($request) {
                     $query->where('name', 'like', "%{$request->searchBy}%")
@@ -163,11 +165,24 @@ class ServiceController extends Controller
         } else {
 
             $userData = Auth::user();
+            $selectedDateTime = Carbon::parse($request->schedule);
+
+            $existingAppointment = Appointments::where('doctor_id', $request->doctor_id)
+                ->where('schedule', $selectedDateTime)
+                ->first();
+
+            if ($existingAppointment) {
+                return response()->json([
+                    'valid' => false,
+                    'message' => 'This time slot is already booked. Please select a different time.',
+                ]);
+            }
 
             $appointment = new Appointments;
             $appointment->user_id = $userData['id'];
             $appointment->name = $userData['name'];
             $appointment->doctor_id = $request->doctor_id;
+            $appointment->doctor_name = $request->doctor_name;
             $appointment->status = "pending";
             $appointment->schedule = $request->schedule;
             if ($appointment->save()) {
@@ -256,6 +271,11 @@ class ServiceController extends Controller
 
     public function update_appointment(Request $request)
     {
+        $userData = Auth::user();
+        if ($userData['role'] == 'patient') {
+            $request['status'] = 'canceled';
+        }
+
         $validator = Validator::make($request->all(), [
             'appointment_id' => 'required|int|gt:0',
             'status' => 'required|in:scheduled,canceled,completed',
@@ -326,10 +346,11 @@ class ServiceController extends Controller
                 // show all
                 break;
             case 'doctor':
-                $appointmentsQuery->where('doctor_id', $userData['id']);
+                $doctor = Doctors::where('user_id', $userData['id'])->first();
+                $appointmentsQuery->where('doctor_id', @$doctor['id']);
                 break;
             case 'patient':
-                $appointmentsQuery->where('user_id', $userData['id']);
+                $appointmentsQuery->where('user_id', $userData['id'])->with('doctor');
                 break;
         }
 
@@ -338,6 +359,7 @@ class ServiceController extends Controller
             $appointmentsQuery->where(function ($query) use ($request) {
                 $query->where('id', 'like', "%{$request->searchBy}%")
                     ->orWhere('status', 'like', "%{$request->searchBy}%")
+                    ->orWhere('doctor_name', 'like', "%{$request->searchBy}%")
                     ->orWhere('schedule', 'like', "%{$request->searchBy}%");
             });
         }
@@ -425,6 +447,7 @@ class ServiceController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'doctor_id' => 'required|int|gt:0',
+            'department' => 'required|string|max:255',
         ]);
 
         if ($validator->fails()) {

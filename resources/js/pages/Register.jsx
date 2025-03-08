@@ -30,8 +30,12 @@ const Register = () => {
                 const apiData = response.data;
                 if (apiData.valid) {
                     localStorage.setItem("authToken", apiData.data.token);
+                    localStorage.setItem("userName", apiData.data.user.name);
+                    localStorage.setItem("userId", apiData.data.user.id);
+                    localStorage.setItem("userRole", apiData.data.user.role);
                     toast.success("Registration successful!", { position: "top-right" });
                     navigate("/");
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
                 } else {
                     toast.error(apiData.message, { position: "top-right" });
                 }
@@ -56,7 +60,7 @@ const Register = () => {
                     <Col sm={12} md={6} className="d-flex justify-content-center">
                         <Card className="p-4 w-md-75 w-lg-50 border-0 shadow-lg">
                             <Badge className="pill-button badge bg-light shadow-sm custom-badge-login mb-4 custom-font">
-                                Register
+                                Sign Up
                             </Badge>
 
                             <Card.Body>
@@ -90,6 +94,7 @@ const Register = () => {
                                                 placeholder="Enter your name"
                                                 {...register("name", { required: "Name is required" })}
                                                 isInvalid={!!errors.name}
+                                                className="custom-focus"
                                             />
                                             <Form.Label>Name</Form.Label>
                                             <Form.Control.Feedback type="invalid">{errors.name?.message}</Form.Control.Feedback>
@@ -108,6 +113,7 @@ const Register = () => {
                                                     },
                                                 })}
                                                 isInvalid={!!errors.email}
+                                                className="custom-focus"
                                             />
                                             <Form.Label>Email</Form.Label>
                                             <Form.Control.Feedback type="invalid">{errors.email?.message}</Form.Control.Feedback>
@@ -123,6 +129,7 @@ const Register = () => {
                                                     minLength: { value: 6, message: "Must be at least 6 characters" },
                                                 })}
                                                 isInvalid={!!errors.password}
+                                                className="custom-focus"
                                             />
                                             <Form.Label>Password</Form.Label>
                                             <Form.Control.Feedback type="invalid">{errors.password?.message}</Form.Control.Feedback>
@@ -139,13 +146,14 @@ const Register = () => {
                                                         value === formValues.password || "Passwords do not match",
                                                 })}
                                                 isInvalid={!!errors.confirmPassword}
+                                                className="custom-focus"
                                             />
                                             <Form.Label>Confirm Password</Form.Label>
                                             <Form.Control.Feedback type="invalid">{errors.confirmPassword?.message}</Form.Control.Feedback>
                                         </Form.Floating>
                                     </Form.Group>
                                     <div className="text-center">
-                                        <Button type="submit" className="custom-btn" disabled={isLoading}>
+                                        <Button type="submit" className="custom-btn-auth rounded-5 w-100" disabled={isLoading}>
                                             {isLoading ? (
                                                 <>
                                                     <Spinner animation="border" size="sm" className="me-2" /> Registering...

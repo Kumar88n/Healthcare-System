@@ -30,7 +30,7 @@ const NotFound = () => (
                         We are sorry, but we cannot seem to find the page you requested.
                         This might be because you have typed the web address incorrectly.
                     </p>
-                    <Link to="/">
+                    <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                         <Button className="px-4 py-2 custom-btn">
                             BACK TO HOME
                         </Button>

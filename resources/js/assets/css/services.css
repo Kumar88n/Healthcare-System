@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+
+.first_sec_service{
+    background-color: #FEF5F0 !important;
+    /* color: #f8d5c2; */
+    /* padding-inline: 10%; */
+}
+
+.custom-sec-badge{
+    font-size: 20px;
+    font-weight: 600;
+    color: #72569D !important;
+}
+
+.right_container{
+    margin-block: 5%;
+}
+
+.right{
+    /* background-color: yellow;
+    margin-top: 15px; */
+}
+
+.custom-font {
+    font-family: "Calistoga", serif !important;
+}
+
+.frst_sec_content {
+    color: #1e144f !important;
+     font-size: 50px;
+    /*font-weight: 900;
+    line-height: 60px; */
+}
+
+.custom-btn {
+    color: #72569D;
+    background-color: transparent;
+    border: 2px solid #6f4ba0;
+    transition: all 0.3s ease-in-out;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.custom-btn:hover {
+    color: #ffffff;
+    border: 2px solid #6f4ba0;
+    background-color: #6f4ba0;
+}
+
+.image_1{
+    border-right: 15px solid #ffffff;
+    border-top: 5px solid #ffffff;
+    border-bottom: 5px solid #ffffff;
+}
+
+.image_2{
+    border-right: 5px solid #ffffff;
+    border-top: 15px solid #ffffff;
+    border-left: 5px solid #ffffff;
+}
+
+.image_3{
+    border-right: 10px solid #ffffff;
+    border-top: 18px solid #ffffff;
+    border-left: 10px solid #ffffff;
+}
+
+@media screen and (max-width: 992px) {
+    .right_container {
+        display: none;
+    }
+}
+

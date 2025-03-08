@@ -9,7 +9,7 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaAngleDoubleRight } from "reac
 const Footer = () => {
     return (
         <footer className="footer_sec py-4">
-            <Container className="footer_con">
+            <Container>
                 <Row>
                     <Col md={4}>
                         <h3 className="fw-bold text-dark">

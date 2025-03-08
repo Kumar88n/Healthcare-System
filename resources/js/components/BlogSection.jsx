@@ -8,19 +8,19 @@ const blogs = [
     {
         category: "Covid-19",
         title: "What Mutations of SARS-CoV-2 are Causing Concern?",
-        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",        
+        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",
         image: blogImage1,
     },
     {
         category: "Dental",
         title: "How Do Your Emotions Affect Your Physical Health?",
-        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",        
+        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",
         image: blogImage2,
     },
     {
         category: "Dermatologist",
         title: "Using Flow Cytometry in Protein Engineering Detection",
-        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",        
+        description: "The idea that your mental state is interconnected with your physical state is a fundamental concept.",
         image: blogImage3,
     },
 ];
@@ -37,16 +37,14 @@ const BlogSection = () => {
             <Row>
                 {blogs.map((blog, index) => (
                     <Col md={4} sm={6} key={index} className="mb-4 d-flex justify-content-center">
-                        <Card className="blog-card shadow border-2">                            
-                            <div className="image-container">
-                                <Card.Img variant="top" src={blog.image} className="blog-image" />
-                            </div>
+                        <Card className="blog-card shadow border-2 py-0">
                             <Card.Body className="text-start">
-                                <Card.Title className="text-dark-color custom-font">{blog.title}</Card.Title>
-                                <Card.Text className="text-muted text-color ">{blog.description}</Card.Text>                                
-                                <div className="mt-3">
-                                    <Button className="blog_btn mt-3">{blog.category}</Button>
+                                <Button className="blog_btn my-3">{blog.category}</Button>
+                                <div className="image-container-blog-card">
+                                    <Card.Img variant="top" src={blog.image} className="blog-image" />
                                 </div>
+                                <Card.Title className="mt-4 lh-base text-dark-color custom-font">{blog.title}</Card.Title>
+                                <Card.Text className="text-muted mt-auto my-4 lh-lg text-color ">{blog.description}</Card.Text>
                             </Card.Body>
                         </Card>
                     </Col>
