@@ -71,7 +71,7 @@ const BookOnline = () => {
     const [selectedFilter, setSelectedFilter] = useState("all");
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedTime, setSelectedTime] = useState(new Date());
-    
+
     useEffect(() => {
         setDoctorsList({});
         setIsLoading(true);
@@ -160,6 +160,7 @@ const BookOnline = () => {
         };
 
         const formattedDateTime = formatDateTime(selectedDate, selectedTime);
+
         const formData = {
             doctor_id: selectedDoctor.id,
             doctor_name: selectedDoctor.name,
@@ -428,7 +429,7 @@ const BookOnline = () => {
                                     minDate={new Date()}
                                 />
                             </Form.Group>
-                            {/* <Form.Group className="mt-3">
+                            <Form.Group className="mt-3">
                                 <Form.Label className="fw-bold">Select Time:</Form.Label>
                                 <DatePicker
                                     selected={selectedTime}
@@ -442,7 +443,7 @@ const BookOnline = () => {
                                     minTime={getMinSelectableTime(selectedDate)}
                                     maxTime={new Date().setHours(17, 0, 0)}
                                 />
-                            </Form.Group> */}
+                            </Form.Group>
                             <Button
                                 className="mt-3 custom-btn"
                                 onClick={handleConfirmBooking}

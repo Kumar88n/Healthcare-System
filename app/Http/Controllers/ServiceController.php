@@ -157,6 +157,7 @@ class ServiceController extends Controller
         $validator = Validator::make($request->all(), [
             'doctor_id' => 'required|int|gt:0',
             'schedule' => 'required|date_format:Y-m-d H:i:00|after:' . Carbon::now()->format('Y-m-d H:i:00'),
+            'appointment_type' => 'required|in:Emergency,Regular',
         ]);
 
         if ($validator->fails()) {
@@ -184,6 +185,7 @@ class ServiceController extends Controller
             $appointment->doctor_id = $request->doctor_id;
             $appointment->doctor_name = $request->doctor_name;
             $appointment->status = "pending";
+            $appointment->appointment_type = $request->appointment_type;
             $appointment->schedule = $request->schedule;
             if ($appointment->save()) {
                 $this->apiValid = true;
@@ -277,38 +279,52 @@ class ServiceController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'appointment_id' => 'required|int|gt:0',
+            'appointment_id' => 'required|integer|gt:0',
             'status' => 'required|in:scheduled,canceled,completed',
         ]);
 
         if ($validator->fails()) {
-            $this->apiData = $validator->errors();
-            $this->apiMessage = $validator->errors()->first();
-        } else {
+            return response()->json([
+                'valid' => false,
+                'message' => $validator->errors()->first(),
+                'errors' => $validator->errors(),
+            ], 400);
+        }
 
-            $appointment = Appointments::where('id', $request->appointment_id)
-                ->where('status', "pending")
-                ->first();
-            if (!empty($appointment)) {
+        $appointment = Appointments::where('id', $request->appointment_id)
+            ->where('status', 'pending')
+            ->first();
 
-                $appointmentUpdate = Appointments::where('id', $request->appointment_id)->update(['status' => $request->status]);
-                if ($appointmentUpdate) {
+        if (!$appointment) {
+            return response()->json([
+                'valid' => false,
+                'message' => 'Invalid appointment data or appointment is not pending.',
+            ], 404);
+        }
 
-                    $this->apiValid = true;
-                    $this->apiMessage = "Appointment {$request->status} successfully";
-                } else {
-                    $this->apiMessage = "Something went wrong. Please try again later";
-                }
-            } else {
-                $this->apiMessage = "Invalid appointment data";
-            }
+        if ($user->role === 'patient') {
+            $request->merge(['status' => 'canceled']);
+        }
+
+        $updateData = ['status' => $request->status];
+
+        if ($request->status === 'completed' && $request->has('description')) {
+            $updateData['description'] = $request->description;
+        }
+
+        $updated = $appointment->update($updateData);
+
+        if ($updated) {
+            return response()->json([
+                'valid' => true,
+                'message' => "Appointment {$request->status} successfully.",
+            ], 200);
         }
 
         return response()->json([
-            'valid' => $this->apiValid,
-            'message' => $this->apiMessage,
-            'data' => $this->apiData,
-        ]);
+            'valid' => false,
+            'message' => 'Something went wrong.Please try again later.',
+        ], 500);
     }
 
     public function appointments_list(Request $request)
@@ -448,6 +464,12 @@ class ServiceController extends Controller
         $validator = Validator::make($request->all(), [
             'doctor_id' => 'required|int|gt:0',
             'department' => 'required|string|max:255',
+            'specialty'  => 'nullable|string|max:255',
+            'fees' => 'nullable|numeric|min:0',
+            'schedule'  => 'nullable',
+            'emergency_available' => 'nullable|boolean',
+            'emergency_schedule'  => 'nullable|string',
+            'emergency_fee' => 'nullable|numeric|min:0',
         ]);
 
         if ($validator->fails()) {
@@ -459,6 +481,9 @@ class ServiceController extends Controller
                 ->first();
             if (!empty($doctor)) {
 
+                $schedule = $doctor->schedule;
+                $emergency_schedule = $doctor->emergency_schedule;
+
                 $updateArr = [];
                 if (!empty($request->specialty)) {
                     $updateArr['specialty'] = $request->specialty;
@@ -466,12 +491,56 @@ class ServiceController extends Controller
                 if (!empty($request->department)) {
                     $updateArr['department'] = $request->department;
                 }
+                if (!empty($request->emergency_available)) {
+                    $updateArr['emergency_available'] = $request->emergency_available;
+                }
+                if (!empty($schedule) && !empty($request->emergency_schedule)) {
+
+                    if ($schedule === $request->emergency_schedule) {
+                        return response()->json([
+                            'valid'   => false,
+                            'message' => "Emergency Schedule and Availability cannot be the same.choose another",
+                        ]);
+                    }
+                }
+                if (!empty($emergency_schedule) && !empty($request->schedule)) {
+
+                    if ($emergency_schedule === $request->schedule) {
+                        return response()->json([
+                            'valid'   => false,
+                            'message' => "Emergency Schedule and Availability cannot be the same choose another",
+                        ]);
+                    }
+                }
+                if (!empty($request->emergency_schedule) && !empty($request->schedule)) {
+
+                    if ($request->emergency_schedule === $request->schedule) {
+                        return response()->json([
+                            'valid'   => false,
+                            'message' => "Emergency schedule and Availability cannot be the same",
+                        ]);
+                    }
+
+                    $updateArr['emergency_schedule'] = $request->emergency_schedule;
+                    $updateArr['availability'] = $request->schedule;
+                } elseif (!empty($request->emergency_schedule)) {
+
+                    $updateArr['emergency_schedule'] = $request->emergency_schedule;
+                } elseif (!empty($request->schedule)) {
+
+                    $updateArr['availability'] = $request->schedule;
+                }
+
+                if (!is_null($request->fees)) {
+                    $updateArr['fee'] = $request->fees;
+                }
+                if (!is_null($request->emergency_fee)) {
+                    $updateArr['emergency_fee'] = $request->emergency_fee;
+                }
 
                 if (!empty($updateArr)) {
-
                     $doctorUpdate = Doctors::where('id', $request->doctor_id)->update($updateArr);
                     if ($doctorUpdate) {
-
                         $this->apiValid = true;
                         $this->apiMessage = "Doctor data updated successfully";
                     } else {
@@ -490,5 +559,82 @@ class ServiceController extends Controller
             'message' => $this->apiMessage,
             'data' => $this->apiData,
         ]);
+    }
+
+    public function appointment_history(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'user_id' => 'required|int',
+        ]);
+
+        if ($validator->fails()) {
+            $this->apiData = $validator->errors();
+            $this->apiMessage = $validator->errors()->first();
+        } else {
+
+            $pageNo = 0;
+            if (!empty($request->page) && is_numeric($request->page) && ($request->page > 1)) {
+                $pageNo = (ceil($request->page) - 1);
+            }
+
+            $perPage = 10;
+            if (!empty($request->perPage) && is_numeric($request->perPage) && ($request->perPage > 0)) {
+                $perPage = ceil($request->perPage);
+            }
+
+            $skipCount = ($pageNo * $perPage);
+
+            $sortColumn = "id";
+            if (!empty($request->sortColumn)) {
+                $sortColumn = $request->sortColumn;
+            }
+
+            $sortOrder = "DESC";
+            if (!empty($request->sortOrder)) {
+                $sortOrder = $request->sortOrder;
+            }
+
+            $historyQuery = Appointments::where('user_id', $request->user_id);
+
+            if (!empty($request->filter_doctor)) {
+                $historyQuery->where('doctor_id', $request->filter_doctor);
+            }
+
+            $historyCount = $historyQuery->count();
+
+            $historyDataArr = $historyQuery->orderBy($sortColumn, $sortOrder)
+                ->skip($skipCount)
+                ->take($perPage)
+                ->get()
+                ->toArray();
+
+            $distinctDoctors = Appointments::select('doctor_id', 'doctor_name')
+                ->groupBy('doctor_id', 'doctor_name')
+                ->get();
+
+            if (!empty($historyDataArr)) {
+
+                $this->apiValid = true;
+                $this->apiMessage = "Patient Appointments History returned successfully.";
+                $this->apiData = [
+                    'currentPage' => ($pageNo + 1),
+                    'totalPages' => ceil($historyCount / $perPage),
+                    'perPage' => $perPage,
+                    'totalRecords' => $historyCount,
+                    'dataArr' => $historyDataArr,
+                    'doctors' => $distinctDoctors
+
+
+                ];
+            } else {
+                $this->apiMessage = "No Patient History present yet.";
+            }
+
+            return response()->json([
+                'valid' => $this->apiValid,
+                'message' => $this->apiMessage,
+                'data' => $this->apiData,
+            ]);
+        }
     }
 }

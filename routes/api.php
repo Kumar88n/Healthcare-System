@@ -49,6 +49,7 @@ Route::group(['middleware' => 'auth:api'], function () {
     /**  Admin + Doc Routes  */
     Route::group(['middleware' => CheckAdminDocAuth::class], function () {
         Route::get('pending-appointments-list', [ServiceController::class, 'pending_appointments_list']);
+        Route::get('appointment-history', [ServiceController::class, 'appointment_history']);
         Route::post('update-appointment', [ServiceController::class, 'update_appointment']);
         Route::post('update-doc-info', [ServiceController::class, 'update_doc_info']);
     });

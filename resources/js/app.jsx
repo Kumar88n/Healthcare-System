@@ -8,6 +8,7 @@ import Register from './pages/Register';
 import Footer from './components/footer';
 import BookOnline from './components/BookOnline';
 import AppointmentList from './components/AppointmentList';
+import AppointmentHistory from './components/AppointmentHistory';
 import ContactSection from './components/ContactSection';
 import "./assets/css/main.css";
 import { ToastContainer } from "react-toastify";
@@ -41,6 +42,7 @@ const App = () => (
         <Route path="/register" element={<Register />} />
         <Route path="/onlinebook" element={<BookOnline />} />
         <Route path="/appointments" element={<AppointmentList />} />
+        <Route path="/appointmenthistory" element={<AppointmentHistory />} />
         <Route path="/contact" element={<ContactSection />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

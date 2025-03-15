@@ -52,9 +52,9 @@ const HeaderNavbar = () => {
                             doctor_id: firstDoctor.id || "",
                             department: firstDoctor.department || "",
                             specialty: firstDoctor.specialty || "",
-                            fees: firstDoctor.fee || "",
+                            fees: firstDoctor.fee || ""
+         
                         });
-                        
                     }
                 }
             })
@@ -89,31 +89,6 @@ const HeaderNavbar = () => {
         navigate("/");
     };
 
-    const formatSchedule = (schedule) => {
-        let formattedSchedule = [{}];
-    
-        Object.keys(schedule).forEach((day) => {
-            formattedSchedule[0][day] = schedule[day].map((slot) => {
-                const fromTime = new Date(slot.from).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                });
-    
-                const toTime = new Date(slot.to).toLocaleTimeString("en-US", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                });
-    
-                return `${fromTime}-${toTime}`;
-            });
-        });
-    
-        return formattedSchedule;
-    };
-    
-
     const handleProfileOpen = () => setShowProfileModal(true);
     const handleProfileClose = () => setShowProfileModal(false);
     const [errors, setErrors] = useState({});
@@ -127,12 +102,9 @@ const HeaderNavbar = () => {
         const AxiosInstance = AxiosHook();
         const URL = "/update-doc-info";
 
-        const formattedSchedule = formatSchedule(schedule); 
-
         const payload = {
-            ...formData,
-            schedule: formattedSchedule, 
-  
+            formData,
+            schedule,   
         };
 
         AxiosInstance.post(URL, payload)
@@ -157,6 +129,7 @@ const HeaderNavbar = () => {
 
     const hideLoginButton = location.pathname === "/login" || location.pathname === "/register";
     const handleKeyDown = (e) => {
+        // Allow control keys for navigation and editing.
         const allowedKeys = [
             "Backspace",
             "Delete",
@@ -183,9 +156,8 @@ const HeaderNavbar = () => {
         }
     };
     const weekdays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
     const [schedule, setSchedule] = useState({});
-    
+
     console.log('schedule', schedule);
     
     const [selectedType, setSelectedType] = useState("regular");
@@ -377,6 +349,7 @@ const HeaderNavbar = () => {
                                                                                 className="form-control"
                                                                             />
                                                                         </Form.Group>
+
                                                                         <Form.Group>
                                                                             <Form.Label>To</Form.Label>
                                                                             <DatePicker
@@ -390,9 +363,11 @@ const HeaderNavbar = () => {
                                                                                 className="form-control"
                                                                             />
                                                                         </Form.Group>
+
                                                                         <Button className="align-self-md-end btn btn-danger btn-sm mb-1" variant="danger" size="sm" onClick={() => removeTimeSlot(day, index)}>
                                                                             <FaTrash />
                                                                         </Button>
+                                                                        
                                                                     </div>
                                                                 ))}
                                                                 <Button variant="success" className="w-100" onClick={() => addTimeSlot(day)}>

@@ -10,4 +10,9 @@ class Appointments extends Model
     {
         return $this->belongsTo(Doctors::class, 'doctor_id', 'id');
     }
+
+        protected $fillable = [
+            'status',
+            'description',
+        ];
 }

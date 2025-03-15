@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Button, Image, Spinner, Form, Badge, Offcanvas, Modal } from "react-bootstrap";
+import { Container, Row, Col, Card, Button, Image, Spinner, Form, Badge, Offcanvas, Modal, Collapse, Dropdown  } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import HeaderNavbar from "./HeaderNavbar";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -7,13 +7,15 @@ import "../assets/css/main.css";
 import errorBgImage from "../assets/images/page-title.jpg";
 import defaultImage from "../assets/images/schedule.svg";
 import AxiosHook from "../hooks/AxiosInstance";
-import { FaCalendarAlt, FaUser, FaEdit, FaUserMd, FaStethoscope, FaTimesCircle, FaExclamationTriangle, FaCheckCircle, FaSearch } from "react-icons/fa";
+import { FaCalendarAlt, FaUser, FaEdit, FaUserMd, FaHospitalUser,  FaStethoscope, FaTimesCircle, FaExclamationTriangle, FaCheckCircle, FaSearch , FaHistory} from "react-icons/fa";
+    import { MdDescription } from "react-icons/md";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { AnimatePresence, motion } from "framer-motion";
 import { CgSpinner } from "react-icons/cg";
+import DescImg from "../assets/images/description.svg";
 
 
 const overlayVariants = {
@@ -60,6 +62,15 @@ const AppointmentList = () => {
     const [showThankYou, setShowThankYou] = useState(false);
     const [reloadData, setReloadData] = useState(null);
     const [userRole] = useState(localStorage.getItem("userRole"));
+    const [description, setDescription] = useState("");
+    const [lgShow, setLgShow] = useState(false);
+    const [openRecords, setOpenRecords] = useState({});
+
+    // const wordLimit = 20;
+    // const words = appointment?.description?.split(" ") || [];
+    // const isLongText = words.length > wordLimit;
+    // const previewText = words.slice(0, wordLimit).join(" ");
+
 
 
     useEffect(() => {
@@ -136,6 +147,7 @@ const AppointmentList = () => {
         };
 
         const formattedDateTime = formatDateTime(selectedDate, selectedTime);
+        
         const formData = {
             appointment_id: selectedAppointment.id,
             schedule: formattedDateTime
@@ -167,7 +179,9 @@ const AppointmentList = () => {
     };
     const [showConfirmModal, setShowConfirmModal] = useState(false);
     const [ShowConfirmCompletedModal, setShowConfirmCompletedModal] = useState(false);
+    const [ShowHistoryModal, setShowHistoryModal] = useState(false);
     const [selectedAppointmentId, setSelectedAppointmentId] = useState(null);
+    const [selectedUserId, setSelectedUserId] = useState(null);
 
     const handleCancelClick = (appointmentId) => {
         setSelectedAppointmentId(appointmentId);
@@ -213,14 +227,95 @@ const AppointmentList = () => {
         setShowConfirmCompletedModal(true);
     };
 
+    // const handleHistoryClick = () => {
+    //     setIsLoading(true);
+
+    //     const AxiosInstance = AxiosHook();
+    //     const URL ="appointment-history";
+    //     const formData = {
+    //         user_id: selectedUserId,
+    //     };
+
+    //     AxiosInstance.post(URL, formData)
+    //         .then((response) => {
+    //             const apiData = response.data;
+    //             console.log(apiData);
+    //             if (apiData.valid) {
+    //                 toast.success(apiData.message);
+    //                 navigate("/appointmenthistory");
+    //             } else {
+    //                 toast.error(apiData.message);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Appointment Update error:", error);
+    //             toast.error("Something went wrong. Please try again later.");
+    //         })
+    //         .finally(() => {
+    //             let currentSecondsOnly = new Date().getSeconds();
+    //             setReloadData(currentSecondsOnly)
+    //             setShowConfirmModal(false);
+    //             setSelectedAppointmentId(null);
+    //             setIsLoading(false);
+    //         });
+    // };
+
+    const handleHistoryClick = (userId) => {
+        navigate(`/appointmenthistory?user_id=${userId}`);
+    };
+
+    const handleCollapse = (appointmentId) => {
+        setOpenRecords((prev) => ({
+            ...prev,
+            [appointmentId]: !prev[appointmentId]
+        }));
+    };
+
+    // const handleConfirmComplete = () => {
+
+    //     setIsLoading(true);
+    //     const AxiosInstance = AxiosHook();
+    //     const URL = "/update-appointment";
+
+    //     const formData = {
+    //         appointment_id: selectedAppointmentId,
+    //         description: " ",
+    //         status: "completed"
+    //     };
+
+    //     AxiosInstance.post(URL, formData)
+    //         .then((response) => {
+    //             const apiData = response.data;
+    //             if (apiData.valid) {
+    //                 toast.success("Appointment marked as completed!");
+    //                 navigate("/appointments");
+    //             } else {
+    //                 toast.error(apiData.message);
+    //             }
+    //         })
+    //         .catch((error) => {
+    //             console.error("Completion error:", error);
+    //             toast.error("Something went wrong. Please try again later.");
+    //         })
+    //         .finally(() => {
+    //             let currentSecondsOnly = new Date().getSeconds();
+    //             setReloadData(currentSecondsOnly)
+    //             setShowConfirmCompletedModal(false);
+    //             setSelectedAppointmentId(null);
+    //             setIsLoading(false);
+    //         });
+    // };
+
     const handleConfirmComplete = () => {
-        setIsLoading(true);
+        
+        setIsLoading(true); 
         const AxiosInstance = AxiosHook();
         const URL = "/update-appointment";
 
         const formData = {
             appointment_id: selectedAppointmentId,
-            status: "completed"
+            status: "completed",
+            description: description,
         };
 
         AxiosInstance.post(URL, formData)
@@ -228,6 +323,8 @@ const AppointmentList = () => {
                 const apiData = response.data;
                 if (apiData.valid) {
                     toast.success("Appointment marked as completed!");
+                    setShowConfirmCompletedModal(false);
+                    setDescription("");
                     navigate("/appointments");
                 } else {
                     toast.error(apiData.message);
@@ -239,7 +336,7 @@ const AppointmentList = () => {
             })
             .finally(() => {
                 let currentSecondsOnly = new Date().getSeconds();
-                setReloadData(currentSecondsOnly)
+                setReloadData(currentSecondsOnly);
                 setShowConfirmCompletedModal(false);
                 setSelectedAppointmentId(null);
                 setIsLoading(false);
@@ -250,6 +347,22 @@ const AppointmentList = () => {
         setSearchBy(searchText);        
         setPage(1);
     };
+    const ReadMoreText = ({ text, maxLength = 50 }) => {
+            const [isExpanded, setIsExpanded] = useState(false);
+            const toggleReadMore = () => setIsExpanded(!isExpanded);
+            const safeText = typeof text === "string" ? text : "";
+        
+            return (
+                <>
+                    <span>{isExpanded ? safeText : `${safeText.slice(0, maxLength)} `}</span>
+                    {safeText.length > maxLength && (
+                        <Button variant="link" className="p-0 text-primary" onClick={toggleReadMore}>
+                            {isExpanded ? "Show Less" : "Read More"}
+                        </Button>
+                    )}
+                </>
+            );
+        };
 
     return (
         <>
@@ -257,7 +370,7 @@ const AppointmentList = () => {
             <Container fluid className="py-5 bg-light text-center book_appointment_cstm" style={{ backgroundImage: `url(${errorBgImage})`, backgroundSize: "cover", backgroundPosition: "center" }}>
                 <h2 className="text-dark-color custom-font display-4 mt-lg-5">Appointments</h2>
                 <p>
-                    <Link to="/" className="text-decoration-none text-dark-color">
+                    <Link to="/" className="text-decoration-none text-dark-color">  
                         <span>Home</span>
                     </Link> / <span>Appointments</span>
                 </p>
@@ -315,13 +428,13 @@ const AppointmentList = () => {
                                                                 className="img-fluid rounded"
                                                             />
                                                         </Col>
-                                                        <Col md={7}>
+                                                        <Col md={6}>
                                                             <Card.Text as="h5" className="fw-bold text-dark-color mb-2">
                                                                 {appointment.name}
                                                             </Card.Text>
                                                             <Card.Text className="mb-1 text-muted d-flex align-items-center">
                                                                 <FaUser className="text-secondary me-2" />
-                                                                <span className="me-1">Status:</span>
+                                                                <strong className="text-dark me-1">Status:</strong>
                                                                 <Badge bg={
                                                                     appointment.status === "completed" ? "success" :
                                                                         appointment.status === "canceled" ? "danger" :
@@ -335,30 +448,45 @@ const AppointmentList = () => {
 
                                                             </Card.Text>
                                                             <Card.Text className="mb-1 text-muted d-flex align-items-center">
-                                                                <FaCalendarAlt className="text-secondary me-2" />
+                                                                <FaCalendarAlt className="text-secondary me-2 " />
                                                                 <span>
-                                                                    Schedule:{" "}
+                                                                    <strong className="text-dark">Schedule:{" "}</strong>
                                                                     {new Date(appointment.schedule).toLocaleString()}
                                                                 </span>
                                                             </Card.Text>
                                                             {appointment.doctor?.name && (
                                                                 <Card.Text className="mb-1 text-muted d-flex align-items-center">
-                                                                    <FaUserMd className="text-secondary me-2" />
+                                                                    <FaUserMd className="text-secondary me-2 fs-5" />
                                                                     <span>
-                                                                        Doctor: {appointment.doctor.name} ({appointment.doctor.department})
+                                                                        <strong className="text-dark">Doctor:</strong> {appointment.doctor.name} ({appointment.doctor.department})
                                                                     </span>
                                                                 </Card.Text>
                                                             )}
 
                                                             {appointment.doctor?.specialty && (
-                                                                <Card.Text className="mb-0 text-muted d-flex align-items-center">
-                                                                    <FaStethoscope className="text-secondary me-2" />
-                                                                    <span>{appointment.doctor.specialty}</span>
+                                                                <Card.Text className="mb-1 text-muted d-flex align-items-center">
+                                                                    <FaStethoscope className="text-secondary me-2 " />
+                                                                    <span>
+                                                                        <strong className="text-dark">Specialty:</strong>{appointment.doctor.specialty}</span>
                                                                 </Card.Text>
+                                                                
                                                             )}
+
+                                                                <Card.Text className="mb-1 text-muted appointDesc">
+                                                                    <MdDescription className="text-secondary me-2 fs-5" />
+                                                                        <strong className="text-dark">Description:</strong>
+                                                                    <span>
+                                                                        {appointment?.description ? (
+                                                                            <span className="ms-1"><ReadMoreText text={appointment.description} /></span>
+                                                                        ):(
+                                                                            <span className="ms-1">N/A</span>
+                                                                        )}
+                                                                    </span>
+                                                                </Card.Text>
+
                                                         </Col>
                                                         {(appointment.status !== "canceled" && appointment.status !== "completed") && (
-                                                            <Col md={2} className="text-end">
+                                                            <Col md={3} className="text-end">
                                                                 {new Date() < new Date(appointment.schedule) && userRole === "patient" && (
                                                                     <>
                                                                         <FaEdit
@@ -388,9 +516,34 @@ const AppointmentList = () => {
                                                                             onClick={() => handleCompletedClick(appointment.id)}
                                                                         />
                                                                         <FaTimesCircle
-                                                                            className="text-danger"
+                                                                            className="text-danger me-1"
                                                                             style={{ cursor: "pointer", fontSize: "1.2rem" }}
                                                                             onClick={() => handleCancelClick(appointment.id)}
+                                                                        />
+                                                                    </>
+                                                                )}
+
+                                                                {userRole === "doctor" && (
+                                                                    <>
+                                                                        <FaHistory 
+                                                                          className="text-success "
+                                                                          style={{ cursor: "pointer", fontSize: "1.2rem" }}
+                                                                          onClick={() => handleHistoryClick(appointment.user_id)}
+                                                                        />
+                                                                    </>
+                                                                )}
+
+                                                            </Col>
+                                                        )}
+
+                                                        {(appointment.status == "canceled" || appointment.status == "completed") && (
+                                                            <Col md={3} className="text-end">
+                                                                {userRole === "doctor" && (
+                                                                    <>
+                                                                        <FaHistory 
+                                                                          className="text-success "
+                                                                          style={{ cursor: "pointer", fontSize: "1.2rem" }}
+                                                                          onClick={() => handleHistoryClick(appointment.user_id)}
                                                                         />
                                                                     </>
                                                                 )}
@@ -431,25 +584,122 @@ const AppointmentList = () => {
                     <Button variant="danger" onClick={handleConfirmCancel} disabled={isLoading}>
                         {isLoading ? <><CgSpinner className="spinning-icon" /> Cancelling...</> : "Yes, Cancel"}
                     </Button>
-
                 </Modal.Footer>
             </Modal>
+
             {/* Success Confirmation Model */}
-            <Modal show={ShowConfirmCompletedModal} onHide={() => setShowConfirmCompletedModal(false)} centered>
+            <Modal
+                show={ShowConfirmCompletedModal} size="lg" onHide={() => setShowConfirmCompletedModal(false)} centered
+            >
                 <Modal.Header closeButton className="border-0">
-                    <Modal.Title className="text-success">
-                        <FaCheckCircle className="me-2" /> Confirm Completion
+                    <Modal.Title className="text-success d-flex align-items-center">
+                        <FaCheckCircle className="me-2" size={22} /> Confirm Completion
                     </Modal.Title>
                 </Modal.Header>
-                <Modal.Body className="text-center">
-                    <p>Are you sure you want to mark this appointment as completed?</p>
+
+                <Modal.Body className="text-center px-4">
+                    <p className="mb-3 fs-5 fw-semibold mb-3 text-dark-color">Are you sure you want to mark this appointment as completed?</p>
+                    <Row >
+
+                        <Col md={6} className="col-md-5 image_2">
+                            <Image src={DescImg} alt="Appointment Illustration" className="img-fluid rounded" />
+                        </Col>
+
+                        <Col md={6} >
+
+                            <Form>
+                                <Form.Floating className="mb-3">
+                                    <Form.Control
+                                        as="textarea"
+                                        placeholder="Enter description..."
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        style={{ height: '240px' }}
+                                        className="ps-5 custom-focus"
+                                    />
+                                    <Form.Label>
+                                        <MdDescription className="me-2 text-secondary" /> Description
+                                    </Form.Label>
+                                </Form.Floating>
+                            </Form>
+                        </Col>
+                    </Row>
                 </Modal.Body>
-                <Modal.Footer className="border-0">
-                    <Button variant="secondary" onClick={() => setShowConfirmCompletedModal(false)}>
-                        No, Keep It Pending
+
+
+                <Modal.Footer className="border-0 d-flex ">
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowConfirmCompletedModal(false)}
+                    >
+                        No,Keep it Pending
                     </Button>
-                    <Button variant="success" onClick={handleConfirmComplete} disabled={isLoading}>
-                        {isLoading ? <><CgSpinner className="spinning-icon" /> Completing...</> : "Yes, Complete"}
+
+                    <Button
+                        variant="success"
+                        onClick={handleConfirmComplete}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <><CgSpinner className="spinning-icon" /> Completing...</> : "Yes ,Complete it"}
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+            {/*Appointment History Model */}
+
+            <Modal
+                show={ShowHistoryModal} size="lg" onHide={() => setShowConfirmCompletedModal(false)} centered
+            >
+                <Modal.Header closeButton className="border-0">
+                    <Modal.Title className="text-success d-flex align-items-center">
+                        <FaCheckCircle className="me-2" size={22} /> Confirm Completion
+                    </Modal.Title>
+                </Modal.Header>
+
+                <Modal.Body className="text-center px-4">
+                    <p className="mb-3 fs-5 fw-semibold mb-3 text-dark-color">Are you sure you want to mark this appointment as completed?</p>
+                    <Row >
+
+                        <Col md={6} className="col-md-5 image_2">
+                            <Image src={DescImg} alt="Appointment Illustration" className="img-fluid rounded" />
+                        </Col>
+
+                        <Col md={6} >
+
+                            <Form>
+                                <Form.Floating className="mb-3">
+                                    <Form.Control
+                                        as="textarea"
+                                        placeholder="Enter description..."
+                                        value={description}
+                                        onChange={(e) => setDescription(e.target.value)}
+                                        style={{ height: '240px' }}
+                                        className="ps-5 custom-focus"
+                                    />
+                                    <Form.Label>
+                                        <MdDescription className="me-2 text-secondary" /> Description
+                                    </Form.Label>
+                                </Form.Floating>
+                            </Form>
+                        </Col>
+                    </Row>
+                </Modal.Body>
+
+
+                <Modal.Footer className="border-0 d-flex ">
+                    <Button
+                        variant="secondary"
+                        onClick={() => setShowConfirmCompletedModal(false)}
+                    >
+                        No,Keep it Pending
+                    </Button>
+
+                    <Button
+                        variant="success"
+                        onClick={handleConfirmComplete}
+                        disabled={isLoading}
+                    >
+                        {isLoading ? <><CgSpinner className="spinning-icon" /> Completing...</> : "Yes ,Complete it"}
                     </Button>
                 </Modal.Footer>
             </Modal>
