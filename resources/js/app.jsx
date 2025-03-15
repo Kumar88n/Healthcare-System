@@ -5,6 +5,7 @@ import Dashboard from './pages/Dashboard';
 import NotFound from './pages/NotFound';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Department from './pages/Department';
 import Footer from './components/footer';
 import BookOnline from './components/BookOnline';
 import AppointmentList from './components/AppointmentList';
@@ -19,11 +20,9 @@ const ProgressBar = () => {
   const location = useLocation();
 
   useEffect(() => {
-
-    NProgress.configure({ showSpinner: false});
+    NProgress.configure({ showSpinner: false });
     NProgress.start();
     setTimeout(() => NProgress.done(), 500);
-
     return () => {
       NProgress.done();
     };
@@ -31,6 +30,7 @@ const ProgressBar = () => {
 
   return null;
 };
+
 const App = () => (
   <>
     <ToastContainer position="top-right" autoClose={3000} />
@@ -44,6 +44,7 @@ const App = () => (
         <Route path="/appointments" element={<AppointmentList />} />
         <Route path="/appointmenthistory" element={<AppointmentHistory />} />
         <Route path="/contact" element={<ContactSection />} />
+        <Route path="/department/:departmentName" element={<Department />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <Footer />

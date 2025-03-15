@@ -8,9 +8,9 @@ import { FaMapMarkerAlt, FaPhoneAlt, FaEnvelope, FaAngleDoubleRight } from "reac
 
 const Footer = () => {
     return (
-        <footer className="footer_sec py-4">
-            <Container className="footer_con">
-                <Row>
+        <footer className="footer_sec py-2 mt-5">
+            <Container className="footer_con pt-3">
+                <Row style={{ lineHeight: "2.0" }}>
                     <Col md={4}>
                         <h3 className="fw-bold text-dark">
                             <Image src={logo} style={{ height: "40px" }} />
@@ -48,7 +48,7 @@ const Footer = () => {
                         <ul className="list-unstyled">
                             <li className="text-muted d-flex align-items-center">
                                 <FaMapMarkerAlt className="me-2 text-dark" />
-                                Rival Solutions Anaj Mandi Road Barnala, Punjab-148101
+                                Rival Solutions, Barnala.
                             </li>
                             <li className="text-muted d-flex align-items-center">
                                 <FaPhoneAlt className="me-2 text-dark" />
@@ -66,6 +66,10 @@ const Footer = () => {
                     </Col>
                 </Row>
             </Container>
+            <hr />
+            <div className="text-center text-muted">
+                <p>© Copyright 2025 | Rival Solutions - A Medical Theme Demo | All right reserved.</p>
+            </div>
         </footer>
     );
 };
