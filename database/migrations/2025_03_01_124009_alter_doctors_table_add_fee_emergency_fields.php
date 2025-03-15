@@ -9,7 +9,7 @@ class AlterDoctorsTableAddFeeEmergencyFields extends Migration
     public function up()
     {
         Schema::table('doctors', function (Blueprint $table) {
-            $table->decimal('fee', 8, 2)->after('department');
+            $table->decimal('fee', 8, 2)->nullable()->after('department');
             $table->boolean('emergency_available')->default(false)->after('fee');
             $table->longText('emergency_schedule')->nullable()->after('emergency_available');
         });
