@@ -5,89 +5,242 @@ body {
     font-family: "Poppins", sans-serif;
 }
 
+/* app.jsx css code *********************** */
+
 #nprogress .bar {
     background: #1e144f !important;
     height: 2px !important;
 }
 
+/* app.jsx css code *********************** */
 
+/* headernavbar, blogsection, login, register ***************************** */
 .text-color {
     color: #72569D !important;
 }
 
-.text-dark-color {
+/* appointments, blogsection, bookonline, contactsection, herosection, notfound ***** */
+.text-dark-color { 
     color: #1e144f !important;
 }
 
-.navbar-nav .nav-link,
-.navbar-nav .nav-item .dropdown-toggle {
-    position: relative;
-    padding: 8px 15px;
-    font-weight: 500;
-    transition: color 0.3s ease-in-out;
+/* headernavbar ******************************************************/
+
+.main_header_nav{
+    padding: 0px 50px;
 }
 
-.navbar-nav .nav-link::before,
-.navbar-nav .nav-item .dropdown-toggle::before {
+.custom-navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: all 0.5s ease-in-out;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.navbar-brand img {
+    height: 50px !important;
+}
+
+.navbar-nav .nav-link {
+    font-size: 18px !important; 
+    font-weight: 500;
+    text-transform: uppercase;
+    /* padding: 10px 30px; */
+    color: #1E144F;
+    margin: 0 20px;
+}
+
+.nav-transparent {
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-bottom: none !important;
+}
+
+.nav-white {
+    background-color: white !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.nav-hidden {
+    opacity: 0;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.nav-visible {
+    opacity: 1;
+    transform: translateY(0);
+    transition: transform 0.3s ease-in-out;
+}
+.nav-invisible {
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+}
+
+.custom-dropdown .dropdown-toggle::after {
+    display: none !important;
+}
+
+
+.custom-dropdown .dropdown-item {
+    position: relative;
+    padding: 15px 20px !important;
+    font-size: 17px !important;
+    font-weight: 500;
+    overflow: hidden;
+    transition: color 0.3s ease-in-out; 
+}
+
+.custom-dropdown .dropdown-item::after {
     content: "";
     position: absolute;
-    top: -10px;
-    left: 50%;
+    left: 0;
+    bottom: 5px; 
+    width: 0%;
+    height: 2px; 
+    background-color: #1E144F; 
+    transition: width 0.3s ease-in-out;
+}
+
+.custom-dropdown .dropdown-item:hover::after {
+    width: 100%; 
+}
+
+
+.custom-dropdown .dropdown-item:hover::before {
+    bottom: 0;
+}
+
+.custom-dropdown .dropdown-menu, .login_button {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+    display: block;
+    visibility: hidden;
+    border: none !important;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    /* width: 250px; */
+    /* margin-top: 15px; */
+
+}
+
+.custom-dropdown:hover .dropdown-menu, .login_button {
+    opacity: 1;
+    transform: translateY(0);
+    visibility: visible;
+}
+
+.new_drop  .dropdown-item {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .new_drop  .dropdown-item::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
     width: 0;
-    height: 3px;
-    background: linear-gradient(90deg, #72569d 11.32%, #9a8bd5 95.28%);
-    transition: all 0.3s ease-in-out;
-    transform: translateX(-50%);
-}
-
-.navbar-nav .nav-link:hover::before,
-.navbar-nav .nav-item .dropdown-toggle:hover::before {
+    height: 2px; 
+    background-color: #1E144F; 
+    transition: width 0.3s ease-in-out;
+  }
+  
+  .new_drop .dropdown-item:hover::after {
     width: 100%;
+  }
+
+  /* .custom_ani_btn{
+    font-size: 18px;
+    font-weight: 800;
+    padding: 15px 40px;
+    border: 2px solid #72569D;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #72569D;
+    transition: all 0.4s ease-in-out;
+  }
+
+  .custom_ani_btn:hover{
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #72569D;
+  } */
+
+/* headernavbar ******************************************************/
+
+/* herosection code *******************************************************/
+.hero_section{
+    padding-top: 5%;
+    /* padding-bottom: 8%; */
+    /* padding-bottom: 50%; */
+}
+.left_sub_hero {
+padding-left: 13%;
 }
 
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-item .dropdown-toggle:hover {
-    color: #72569d !important;
+.right_sub_hero {
+padding-right: 13%;
 }
 
-
-
-.custom-btn {
-    background-color: #6f4ba0;
-    color: white;
-    border: 2px solid #6f4ba0;
-    transition: all 0.3s ease-in-out;
+.right_sub_hero img{
+float: right;
 }
 
-.custom-btn:hover {
+.left_hero h1{
+    font-size: clamp(31px, 5vw, 58px);
+}
+
+.left_hero .list_text{
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.hero_sec_img {
+    position: relative; 
+    display: inline-block; 
+}
+.herosection_img{
+    /* margin-top: -5%; */
+}
+.hero_img{
+border: 8px solid white;
+}
+
+.neuro-badge {
+    position: absolute;
+    top: 84%;
+    right: 50%;
+    transform: translate(-50%, -50%); 
+    padding: 10px;
+    border-radius: 50%;
     background-color: white;
-    color: #6f4ba0;
-    border: 2px solid #6f4ba0;
+    width: 180px;
+    height: 180px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 10px solid #fef5f0;
 }
 
-.custom-btn:disabled {
-    background-color: #6f4ba0;
-    color: white;
-    border: 2px solid #6f4ba0;
-}
-
-.custom-font {
-    font-family: "Calistoga", serif !important;
-}
-
-.slider_content_font {
-    font-size: 35px;
+.neurologist-icon {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 5px;
 }
 
 .custom-badge {
-    font-size: 1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #72569D !important;
-}
-
-.custom-badge-team-member {
-    font-size: 1.5rem;
-    font-weight: 600;
+    padding: 17px 44px;
     color: #72569D !important;
 }
 
@@ -95,27 +248,132 @@ body {
     width: 12px;
     height: 12px;
     background-color: #00A51A;
-    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+    box-shadow: 0 0px 0px 11px #D9F2DD;
 }
 
-.left_hero h1 {
-    font-size: 70px;
+.hero_sec_img .herosection_img{
+    width: 520px;
 }
 
-.left_hero .list_text {
-    font-size: 20px;
+/* herosection end code *******************************************************/
+
+@media (max-width: 480px) {
+    .offcanvas .nav-link {
+        color: white !important;
+        font-size: 13px !important;
+    }
+
+    .offcanvas .nav-link:hover {
+        color: #f0f0f0 !important;
+    }
+
+      .custom-offcanvas {
+    transition: transform 0.5s ease-in-out, opacity 0.3s ease-in-out;
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.offcanvas.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.offcanvas .btn-close {
+    color: white !important;
+    border: 2px solid white !important;
+    border-radius: 50%;
+    padding: 10px;
+    opacity: 1 !important;
+}
+
+.offcanvas .btn-close:hover {
+    opacity: 0.7 !important;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-item .dropdown-toggle:hover {
+    color: #ffffff !important;
+}
+}
+
+/* appointment, bookonline, herosection, servicesection, login, notfound, register */
+/* .custom-btn {
+    background-color: #6f4ba0;
+    color: white;
+    border: 2px solid #6f4ba0;
+    transition: all 0.3s ease-in-out;
+    border-radius: 4px;
+}
+    
+
+.custom-btn:hover {
+    background-color: white;
+    color: #6f4ba0;
+    border: 2px solid #6f4ba0;
+} */
+
+/* .custom-btn:disabled {
+    background-color: #6f4ba0;
+    color: white;
+    border: 2px solid #6f4ba0;
+} */
+
+.header_custom_bttn{
+    font-size: 19px;
+    font-weight: 500;
+    padding: 15px 40px;
+    border: 2px solid #72569D;
+    border-radius: 4px;
+    color: #ffffff;
+    background-color: #72569D;
+    transition: all 0.4s ease-in-out;
+}
+
+.header_custom_bttn:hover{
+    background-color: #ffffff;
+    color: #333;
+    border: 2px solid #72569D;
+}
+
+.custom-font {
+    font-family: "Calistoga", serif !important;
+}
+
+/* autoscrollsection **************** */
+
+.slider_content_font {
+    font-size: 35px;
+}
+
+/* blogsection, contactsection, herosection, servicesection, teamsection, login, register */
+/* .custom-badge {
+    font-size: 1rem;
     font-weight: 600;
+    color: #72569D !important;
+} */
+
+/* blogsection, teamsection *******************************/
+.custom-badge-team-member {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #72569D !important;
 }
 
-.left_hero .right_sub_hero {
-    padding-inline-start: 10%;
-}
+/* contactsection, herosection *****************************************/
+/* .custom-badge-content {
+    width: 12px;
+    height: 12px;
+    background-color: #00A51A;
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+} */
 
+/* herosection, servicesection *****************************************/
 .frst_sec_content {
     color: #1e144f !important;
     font-size: 5rem;
 }
 
+/* herosection start *******************************/
 .first_sec_blog {
     background-color: #FEF5F0 !important;
     height: 920px;
@@ -125,11 +383,6 @@ body {
     top: 20%;
     position: absolute;
     right: 18%;
-}
-
-.doctor-img {
-    width: 100%;
-    max-width: 400px;
 }
 
 .neurologist-badge {
@@ -151,25 +404,15 @@ body {
     margin-bottom: 5px;
 }
 
-.scrolling-section {
-    background-color: #fde7db;
-}
+/* herosection end *******************************/
 
-.scrolling-item {
-    font-size: 20px;
-    font-weight: bold;
-    color: #1a1a1a;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-}
-
+/* footer_backup, footer *****************************************/
 .footer_sec {
     background-color: #FEF5F0;
     padding-top: 250px;
 }
 
+/* teamsection ********************/
 .doctor-image {
     width: 100%;
     height: 350px;
@@ -177,27 +420,12 @@ body {
     transition: transform 0.3s ease-in-out;
 }
 
+/* blogsection, teamsection ***************************/
 .team_sec_cntnt {
     color: #1E144F !important;
 }
 
-.custom-navbar {
-    position: sticky;
-    top: 0;
-    width: 100%;
-    transition: transform 0.3s ease-in-out;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.9);
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
 
-.nav-hidden {
-    transform: translateY(-100%);
-}
-
-.nav-visible {
-    transform: translateY(0);
-}
 
 .dr_names {
     color: #1E144F;
@@ -395,6 +623,7 @@ body {
         top: 35px;
         left: 50%;
     }
+
 }
 
 
@@ -609,7 +838,7 @@ body {
     font-size: 15px;
 }
 
-.custom_ani_btn {
+/* .custom_ani_btn {
     position: relative;
     transition: all 0.3s ease-in-out;
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
@@ -633,7 +862,7 @@ body {
     transform: scale(1.05);
     border-color: #fff9;
     background-color: #72569D !important;
-}
+} */
 
 .custom_ani_btn_close:hover {
     transform: scale(1.05);
@@ -744,12 +973,301 @@ body {
     bottom: unset;
     transition-duration: 0.5s;
 }
-input[type="number"]::-webkit-inner-spin-button,
-input[type="number"]::-webkit-outer-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+
+/*  *****************onlinebook code*********************** */
+
+.online_custom_btn {
+    background-color: transparent;
+    color: #333; 
+    border: 2px solid #8057BF;
+    border-radius: 4px; 
+    padding: 12px 20px;
+    font-size: 16px; 
+    margin: 5px;
+    transition: all 0.3s ease-in-out; 
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
+.online_custom_btn:hover {
+    background-color: #8057BF; 
+    color: white;
+}
+
+.online_custom_btn[style*="pointer-events: none"] {
+    background-color: grey; 
+    cursor: not-allowed;
+    opacity: 0.6;
+}
+
+.selected {
+    background-color: #8057BF;
+    color: white;
+}
+
+.online_custom_input{
+    height: 50px; 
+    font-size: 16px;
+    border: 2px solid #8057BF; 
+    border-radius: 8px;
+    padding: 10px 15px; 
+    transition: all 0.3s ease-in-out;
+}
+
+.online_custom_input:focus{
+    border-color: #5a3e9d; 
+    box-shadow: 0 0 8px rgba(128, 87, 191, 0.5); 
+    outline: none;
+}
+
+/* .online_custom_switch{
+    border: 1px solid pink;
+    padding: 10px 35px;
+} */
+
+.online_custom_switch .form-check-input{
+    width: 50px;
+    height: 25px;
+    background-color: transparent;
+    border: 2px solid #8f8a8a;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.online_custom_switch .form-check-input:checked{
+    background-color: #28a745 !important; 
+    border-color: #218838;
+}
+
+.online_custom_switch .form-check-label{
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+    margin-left: 10px;
+}
+
+/* Card Styling */
+.selected_doctor_card .card {
+    border-radius: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.selected_doctor_card .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0px 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.selected_doctor_card .card .card-body {
+    padding: 20px;
+}
+
+/* Image Styling */
+.selected_doctor_card .img-thumbnail {
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.selected_doctor_card .img-thumbnail:hover {
+    transform: scale(1.1);
+}
+
+/* Text Styling */
+.selected_doctor_card .card-title {
+    font-size: 1.25rem;
+    color: #0d6efd;
+}
+
+.selected_doctor_card .card-text {
+    font-size: 0.9rem;
+}
+
+.selected_doctor_card .card-text strong {
+    font-weight: 600;
+}
+
+/* Hover and Focus Styles */
+.selected_doctor_card .card-body:hover {
+    background-color: #f8f9fa;
+}
+
+/* Add smooth shadow and border-radius on hover */
+.selected_doctor_card .hover-shadow-lg {
+    transition: all 0.3s ease;
+}
+
+.selected_doctor_card .shadow-sm {
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animation for image */
+@keyframes zoomIn {
+    0% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+.selected_doctor_card .img-thumbnail {
+    animation: zoomIn 0.5s ease-in-out;
+}
+
+/* Add more customization as per requirement */
+
+
+
+
+
+@media (min-width: 770px) and (max-width: 820px) {
+    .left_hero h1 {
+        font-size: 46px;
+        /* background-color: yellow; */
+        line-height: 50px;
+    }
+
+    .left_sub_hero {
+        padding-left: 5%;
+    }
+
+    .left_hero .list_text {
+        font-size: 17px;
+        margin-top: -17px;
+    }
+}
+
+
+
+/* Responsive */
+@media (min-width: 540px) and (max-width: 768px) {
+    .neurologist-badge {
+        width: 120px;
+        height: 120px;
+        bottom: -60px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .neurologist-icon {
+        width: 80px;
+        height: 80px;
+    }
+
+    .left_hero h1{
+        font-size: 40px;
+        text-align: center;
+    }
+
+    .left_sub_hero .list_text{
+        align-self: center;
+    }
+
+    .custom-btn{
+        display: block;
+        margin: auto;
+        margin-top: -20px;
+    }
+
+    .custom-badge{
+        display: block;
+        font-size: 14px;
+        margin: 0px 120px;
+    }
+
+    .hero_img_container{
+        width: 511px;
+        left: 91px;
+    }
+
+    .header_custom_bttn{
+        display: block;
+        margin: auto;
+        margin-top: 15px;
+        }
+
+    .left_sub_hero {
+        padding-left: 6%;
+    }
+    
+    .right_sub_hero img{
+        float: center;
+    }
+    .hero_sec_img .herosection_img{
+        width: 320px;
+    }
+}
+
+@media (max-width: 480px) {
+    .neurologist-badge {
+        width: 120px;
+        height: 120px;
+        bottom: -10px;
+        left: 10%;
+    }
+
+    .neurologist-icon {
+        width: 40px;
+    height: 50px;
+    margin-bottom: 5px;
+    }
+
+    .neuro-badge p{
+        font-size: 15px;
+    }
+
+    .navbar-nav .nav-link::before {
+        top: 35px;
+        left: 50%;
+    }
+
+    #navbar-nav{
+        background-color: #ffffff;
+    }
+
+    .custom-badge{
+        display: block;
+        font-size: 14px;
+        margin: 0px 40px;
+    }
+
+    .left_hero h1{
+        font-size: 30px;
+        text-align: center;
+        line-height: 40px;
+    }
+
+    .left_sub_hero {
+        padding-left: 0%;
+    }
+
+    .left_sub_hero .list_text{
+        align-self: center;
+        font-size: 13px;
+        margin-top: -15px;
+        /* width: 100%; */
+    }
+
+    .header_custom_bttn{
+    display: block;
+    margin: auto;
+    font-size: 14px;
+    }
+
+    .main_header_nav{
+        padding: 0px 10px;
+    }
+
+    .neuro-badge {
+        top: 82%;
+        right: 34%;
+        width: 140px;
+        height: 137px;
+    }
+
+    .test_badge {
+        display: block;
+        text-align: center;
+        margin: 0px 50px;
+    }
+
+    .hero_sec_img .herosection_img{
+        width: 320px;
+    }
 }

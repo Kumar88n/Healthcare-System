@@ -11,7 +11,7 @@
     width: fit-content;
     color: #72569D;
     font-size: 20px;
-    font-weight: 700;
+    /* font-weight: 700; */
     padding: 13px 45px;
     line-height: 26px;
     background: #ffffff;
@@ -97,3 +97,27 @@ margin: 40px 70px 0px;
   transition: background-color 0.30s ease;
 }
 
+@media (min-width: 520px) and (max-width: 768px) {
+  .h2_fnt{
+    margin: 19px -50px -18px;
+    font-size: 48px;
+  }
+
+  .hd_sec {
+    margin: 0px 0px 0px;
+    text-align: center;
+}
+}
+
+@media (max-width: 480px) {
+  .hd_sec {
+    margin: 0px 0px 0px;
+    text-align: center;
+}
+
+.h2_fnt {
+  font-size: 30px;
+  font-weight: 400;
+  line-height: 42px;
+}
+}

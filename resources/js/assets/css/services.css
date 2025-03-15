@@ -1,24 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Calistoga&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Calistoga&display=swap");
 
-.first_sec_service{
-    background-color: #FEF5F0 !important;
+.first_sec_service {
+    background-color: #fef5f0 !important;
     /* color: #f8d5c2; */
-    /* padding-inline: 10%; */
 }
 
-.custom-sec-badge{
+.custom-sec-badge {
     font-size: 20px;
     font-weight: 600;
-    color: #72569D !important;
-}
-
-.right_container{
-    margin-block: 5%;
-}
-
-.right{
-    /* background-color: yellow;
-    margin-top: 15px; */
+    color: #72569d !important;
 }
 
 .custom-font {
@@ -27,18 +17,20 @@
 
 .frst_sec_content {
     color: #1e144f !important;
-     font-size: 50px;
-    /*font-weight: 900;
-    line-height: 60px; */
+    font-size: 50px;
+    line-height: 75px;
 }
 
 .custom-btn {
-    color: #72569D;
+    color: #72569d;
     background-color: transparent;
     border: 2px solid #6f4ba0;
     transition: all 0.3s ease-in-out;
     font-size: 20px;
     font-weight: 700;
+}
+.right_container{
+    padding-top: 140px;
 }
 
 .custom-btn:hover {
@@ -47,27 +39,61 @@
     background-color: #6f4ba0;
 }
 
-.image_1{
+.image_1 {
     border-right: 15px solid #ffffff;
     border-top: 5px solid #ffffff;
     border-bottom: 5px solid #ffffff;
 }
 
-.image_2{
+.image_2 {
     border-right: 5px solid #ffffff;
     border-top: 15px solid #ffffff;
     border-left: 5px solid #ffffff;
 }
 
-.image_3{
+.image_3 {
     border-right: 10px solid #ffffff;
     border-top: 18px solid #ffffff;
     border-left: 10px solid #ffffff;
 }
 
+.fun-fact-grids {
+    font-family: "Calistoga", serif !important;
+}
+
+/* @media screen and (max-width: 1054px) {
+    .right_container {
+        display: none;
+    }
+} */
 @media screen and (max-width: 992px) {
     .right_container {
         display: none;
     }
 }
 
+@media (min-width: 540px) and (max-width: 768px) {
+    .frst_sec_content {
+        /* font-size: 35px; */
+        text-align: center;
+        line-height: 53px;
+    }
+
+    .custom-sec-badge {
+        display: block;
+        margin: 0 186px;
+    }
+}
+
+@media (max-width: 480px) {
+    .frst_sec_content {
+        font-size: 35px;
+        text-align: center;
+        line-height: 53px;
+    }
+
+    .custom-sec-badge {
+        display: block;
+        margin: 0px 60px;
+    }
+}
