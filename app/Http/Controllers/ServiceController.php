@@ -9,6 +9,9 @@ use Illuminate\Support\Carbon;
 use App\Models\Doctors;
 use App\Models\User;
 use App\Models\Appointments;
+use App\Models\Payments;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
 
 class ServiceController extends Controller
 {
